@@ -1,0 +1,49 @@
+
+/*Checkout CSS*/
+@media (min-width: 1025px) {
+    p:is(.form-row-first,.form-row-last) {
+        overflow: visible;
+        width: 100%;
+    }
+}
+
+/* Ensure both fields align side by side */
+#date_time_picker_checkout_fields .form-row-first,
+#date_time_picker_checkout_fields .form-row-last {
+    width: 48%; /* Adjust as needed */
+    float: left;
+    margin-right: 4%; /* Space between the fields */
+}
+
+#date_time_picker_checkout_fields .form-row-last {
+    margin-right: 0;
+}
+
+.delivery_date_row,
+.delivery_time_row {
+		width: 48%;
+		float: left;
+    display: inline-block;
+}
+
+.delivery_date_row{
+	margin-right: 15px;
+}
+.delivery_time_row abbr{
+	display: none;
+}
+.ui-datepicker .ui-datepicker-buttonpane button.ui-datepicker-current {
+    display: none;
+}
+
+@media (max-width: 630px) {
+	.delivery_date_row, .delivery_time_row {
+    width: 100%;
+	}
+	.delivery_time_row label{
+		display: none;
+	}
+	.delivery_date_row {
+		margin-bottom: 5px;
+	}
+}
