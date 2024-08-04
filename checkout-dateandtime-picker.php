@@ -197,3 +197,57 @@ function add_whatsapp_to_order_email( $fields, $sent_to_admin, $order ) {
     }
     return $fields;
 }
+
+// WhatsApp Two
+
+
+/*Add the WhatsApp field to the checkout form*/
+
+add_filter( 'woocommerce_billing_fields', 'add_whatsapp_billing_field' );
+function add_whatsapp_billing_field( $fields ) {
+    $fields['billing_whatsapp'] = array(
+        'label'       => __( 'WhatsApp', 'woodmart' ),
+        'placeholder' => _x( 'WhatsApp', 'placeholder', 'woodmart' ),
+        'required'    => false,
+        'class'       => array( 'form-row-wide' ),
+        'clear'       => true,
+    );
+    return $fields;
+}
+
+
+/*Save the WhatsApp field data*/
+
+add_action( 'woocommerce_checkout_update_order_meta', 'save_whatsapp_billing_field' );
+function save_whatsapp_billing_field( $order_id ) {
+    if ( ! empty( $_POST['billing_whatsapp'] ) ) {
+        update_post_meta( $order_id, '_billing_whatsapp', sanitize_text_field( $_POST['billing_whatsapp'] ) );
+    }
+}
+
+/*Display the WhatsApp field in the admin order details page*/
+
+add_action( 'woocommerce_admin_order_data_after_billing_address', 'display_whatsapp_in_admin_order', 10, 1 );
+function display_whatsapp_in_admin_order( $order ) {
+    $whatsapp_number = get_post_meta( $order->get_id(), '_billing_whatsapp', true );
+    if ( ! empty( $whatsapp_number ) ) {
+        echo '<p><strong>' . __( 'WhatsApp', 'woodmart' ) . ':</strong> ' . esc_html( $whatsapp_number ) . '</p>';
+    }
+}
+
+
+/*Display the WhatsApp field in the order emails*/
+
+add_filter( 'woocommerce_email_order_meta_fields', 'add_whatsapp_to_order_email', 10, 3 );
+function add_whatsapp_to_order_email( $fields, $sent_to_admin, $order ) {
+    $whatsapp_number = get_post_meta( $order->get_id(), '_billing_whatsapp', true );
+    if ( ! empty( $whatsapp_number ) ) {
+        $fields['whatsapp_number'] = array(
+            'label' => __( 'WhatsApp', 'woodmart' ),
+            'value' => $whatsapp_number,
+        );
+    }
+    return $fields;
+}
+
+
